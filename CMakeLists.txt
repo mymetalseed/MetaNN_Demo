@@ -15,6 +15,8 @@ include_directories(
 	SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}
 )
 add_subdirectory(Tests)
-
-
+add_executable (DeepL_Other "./Tests/OtherTests/main.cpp")
+add_executable (DeepL_Layer "./Tests/LayerTest/main.cpp")
+target_link_libraries(DeepL_Other testLib)
+target_link_libraries(DeepL_Layer testLib)
 # TODO: 如有需要，请添加测试并安装目标。

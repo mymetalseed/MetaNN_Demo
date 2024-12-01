@@ -20,13 +20,13 @@ namespace MetaNN
             using DeviceType = TDevice;
 
             EvalItem(EvalHandle<PrincipalDataType<CategoryTag, ElementType, DeviceType>> resBuf,
-                Shape<uDim> p_shape)
+                     Shape<uDim> p_shape)
                 : BaseEvalItem(TypeID<EvalItem>(), {}, resBuf.DataPtr())
                 , m_resHandle(std::move(resBuf))
                 , m_shape(std::move(p_shape))
             {
             }
-
+        
             EvalHandle<PrincipalDataType<CategoryTag, ElementType, DeviceType>> m_resHandle;
             const Shape<uDim> m_shape;
         };
@@ -40,8 +40,8 @@ namespace MetaNN
             {
                 using CategoryTag = CategoryTags::Tensor<uDim>;
                 PrincipalDataType<CategoryTag, TElem, TDevice> res(evalItem.m_shape);
-                static_assert(std::is_same_v<TDevice, DeviceTags::CPU>,
-                    "Only CPU is supported now.");
+                static_assert(std::is_same_v<TDevice, DeviceTags::CPU>, 
+                              "Only CPU is supported now.");
 
                 if constexpr (uDim == 0)
                 {
@@ -71,15 +71,15 @@ namespace MetaNN
 
     public:
         template <typename...TShapeParams,
-            std::enable_if_t<(std::is_convertible_v<TShapeParams, size_t> && ...)>* = nullptr>
+                  std::enable_if_t<(std::is_convertible_v<TShapeParams, size_t> && ...)>* = nullptr>
         explicit ZeroTensor(TShapeParams&&... shapeParams)
             : m_shape(std::forward<TShapeParams>(shapeParams)...)
         {}
-
+        
         explicit ZeroTensor(MetaNN::Shape<uDim> p_shape)
             : m_shape(std::move(p_shape))
         {}
-
+    
         const auto& Shape() const noexcept
         {
             return m_shape;
